@@ -12,7 +12,7 @@ export async function loadLogo(scene: BABYLON.Scene) {
     redMaterial.diffuseColor = BABYLON.Color3.Red();
 
     // Load texture from /assets/textures/black_white.png
-    let blackWhiteTexture = new BABYLON.Texture("../assets/exports/black_white.png", scene);
+    let blackWhiteTexture = new BABYLON.Texture("assets/exports/black_white.png", scene);
 
     let colors = {
         "S": BABYLON.Color3.FromHexString("#c54365"),
