@@ -1,0 +1,22 @@
+{
+  "name": "smulk_website",
+  "version": "1.0.0",
+  "dependencies": {
+    "@babylonjs/core": "^6.3.1",
+    "@babylonjs/loaders": "^6.3.1",
+    "@babylonjs/gui": "^6.3.1"
+  },
+  "devDependencies": {
+    "concurrently": "^7.4.0",
+    "esbuild": "^0.15.10",
+    "live-server": "git+https://github.com/tapio/live-server.git#ad22544",
+    "copyfiles": "^2.4.1"
+  },
+  "scripts": {
+    "serve": "live-server",
+    "copy": "copyfiles -f node_modules/@babylonjs/havok/lib/esm/HavokPhysics.wasm dist/",
+    "build": "esbuild src/index.ts --bundle --format=esm --outdir=dist/ --watch",
+    "package": "concurrently \"npm run build\" \"npm run copy\"",
+    "start": "concurrently \"npm run package\" \"npm run serve\""
+  }
+}
