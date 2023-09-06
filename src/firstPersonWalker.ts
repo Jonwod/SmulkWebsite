@@ -11,7 +11,10 @@ export class FirstPersonWalker {
 
     constructor(canvas: HTMLCanvasElement, scene: BABYLON.Scene, location: BABYLON.Vector3) {
         this.camera = new BABYLON.UniversalCamera("camera1", location, scene);
+        // set fov
+        this.camera.fov = 1.2;
         this.camera.attachControl(canvas, true);
+        this.camera.applyGravity = true;
         let that = this;
 
         this.camera.setTarget(new BABYLON.Vector3(0, 1, 1));

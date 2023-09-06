@@ -40,7 +40,7 @@ let createScene = async function () {
 
     const galleryBuilding = await loadGalleryBuilding(scene);
 
-    const player = new FirstPersonWalker(canvas, scene, new BABYLON.Vector3(0, 4, 4));
+    const player = new FirstPersonWalker(canvas, scene, new BABYLON.Vector3(0, 2, 4));
 
     scene.gravity = new BABYLON.Vector3(0, -1.15, 0);
     scene.collisionsEnabled = true;
