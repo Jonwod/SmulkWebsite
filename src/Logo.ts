@@ -2,7 +2,7 @@ import * as BABYLON from '@babylonjs/core';
 import "@babylonjs/loaders/glTF";   // This is required to load glTF files (it has side effects)
 
 export async function loadLogo(scene: BABYLON.Scene) {
-    let result = await BABYLON.SceneLoader.ImportMeshAsync("", "assets/exports/", "SmulkLogo.glb");
+    let result = await BABYLON.SceneLoader.ImportMeshAsync("", "assets/", "SmulkLogo.glb");
     let root = result.meshes[0];
 
     let blackMaterial = new BABYLON.StandardMaterial("white", scene);
@@ -12,7 +12,7 @@ export async function loadLogo(scene: BABYLON.Scene) {
     redMaterial.diffuseColor = BABYLON.Color3.Red();
 
     // Load texture from /assets/textures/black_white.png
-    let blackWhiteTexture = new BABYLON.Texture("assets/exports/black_white.png", scene);
+    let blackWhiteTexture = new BABYLON.Texture("assets/black_white.png", scene);
 
     let colors = {
         "S": BABYLON.Color3.FromHexString("#c54365"),
