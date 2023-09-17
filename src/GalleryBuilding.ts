@@ -4,7 +4,8 @@ import "@babylonjs/loaders/glTF";   // This is required to load glTF files (it h
 
 export async function loadGalleryBuilding(scene: BABYLON.Scene) {
     let result = await BABYLON.SceneLoader.ImportMeshAsync("", "assets/", "ArtGallery.glb");
-    let root = result.meshes[0];
-
-    return root;
+    // for(let mesh of result.meshes) {
+    //     console.log(mesh);
+    // }
+    return result.meshes[0];
 }
