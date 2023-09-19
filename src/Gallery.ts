@@ -10,8 +10,21 @@ function makePictureMaterial(texture: BABYLON.Texture) {
     return material;
 }
 
-export async function loadGalleryBuilding(scene: BABYLON.Scene) {
+
+interface GalleryBuildingMeshes {
+    root: BABYLON.AbstractMesh;
+    galleryBuilding: BABYLON.AbstractMesh;
+    interiorMeshes: BABYLON.AbstractMesh[];
+}
+
+export async function loadGalleryBuilding(scene: BABYLON.Scene):
+    Promise<GalleryBuildingMeshes>  {
     let result = await BABYLON.SceneLoader.ImportMeshAsync("", "assets/", "ArtGallery.glb");
+    let meshes: GalleryBuildingMeshes = {
+        root: result.meshes[0],
+        galleryBuilding: null,
+        interiorMeshes: []
+    }
 
     let photoTextures= [
         new BABYLON.Texture("assets/photos/jacc/jacc_A1.jpg", scene),
@@ -64,7 +77,16 @@ export async function loadGalleryBuilding(scene: BABYLON.Scene) {
                     mesh.material = material;
                 }
             }
+            meshes.interiorMeshes.push(mesh);
+        }
+        else if(mesh.name == "GalleryBuilding") {
+            mesh.checkCollisions = true;
+            meshes.galleryBuilding = mesh;
+        }
+        else {
+            mesh.checkCollisions = true;
+            meshes.interiorMeshes.push(mesh);
         }
     }
-    return result.meshes[0];
+    return meshes;
 }

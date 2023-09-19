@@ -1,6 +1,6 @@
 import * as BABYLON from '@babylonjs/core';
 import {loadLogo} from "./Logo";
-import {loadGalleryBuilding} from "./GalleryBuilding";
+import {loadGalleryBuilding} from "./Gallery";
 import {FirstPersonWalker} from "./firstPersonWalker";
 
 const BACKGROUND_GREEN = new BABYLON.Color3(0.81, 0.97, 0.68);
@@ -21,14 +21,15 @@ let createScene = async function () {
     groundMaterial.diffuseColor = new BABYLON.Color3(0.5, 0.50, 0.5).scale(2);
     ground.material = groundMaterial;
 
+    //
+    let directionalLight = new BABYLON.DirectionalLight("dirLight", new BABYLON.Vector3(0, -0.1, 0.5), scene);
+    directionalLight.position.y = 100;
+    directionalLight.intensity = 0.8;
 
-    let topLight = new BABYLON.DirectionalLight("dirLight", new BABYLON.Vector3(0, -0.1, 0.5), scene);
-    topLight.position.y = 100;
-    topLight.intensity = 0.5;
+    // Add a hemispheric light
+    let hemiLight = new BABYLON.HemisphericLight("hemiLight", new BABYLON.Vector3(0, 1, 0), scene);
+    hemiLight.intensity = 0.1;
 
-    let topLight2 = new BABYLON.DirectionalLight("dirLight", new BABYLON.Vector3(0, -1, -0.5), scene);
-    topLight2.position.y = 100;
-    topLight2.intensity = 0.4;
 
     // Add a basic cube
     // const box = BABYLON.MeshBuilder.CreateBox("box", {});
@@ -38,7 +39,8 @@ let createScene = async function () {
     logo.position.z = 10;
     logo.position.y = 3;
 
-    const galleryBuilding = await loadGalleryBuilding(scene);
+    const galleryMeshes = await loadGalleryBuilding(scene);
+    directionalLight.excludedMeshes.push(...galleryMeshes.interiorMeshes);
 
     const player = new FirstPersonWalker(canvas, scene, new BABYLON.Vector3(0, 2, 4));
 
