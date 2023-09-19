@@ -22,6 +22,7 @@ export async function loadGalleryBuilding(scene: BABYLON.Scene) {
         new BABYLON.Texture("assets/photos/jacc/jacc_J2.jpg", scene)
     ];
 
+    let blackWhiteTexture = new BABYLON.Texture("assets/black_white.png", scene);
 
     for(let i = 0; i < result.meshes.length; ++i) {
         let mesh = result.meshes[i];
@@ -38,7 +39,11 @@ export async function loadGalleryBuilding(scene: BABYLON.Scene) {
                 mesh = newMesh;
 
                 if(mesh.name.endsWith("primitive0")) {   // primitive0 is the frame
-
+                    let frameMaterial = new BABYLON.StandardMaterial("material", mesh.getScene());
+                    frameMaterial.diffuseTexture = blackWhiteTexture;
+                    frameMaterial.diffuseColor = BABYLON.Color3.White();
+                    frameMaterial.specularColor = BABYLON.Color3.Black();
+                    mesh.material = frameMaterial;
                 }
                 else if(mesh.name.endsWith("primitive1")) { // primitive1 is the picture
                     let material;
