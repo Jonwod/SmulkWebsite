@@ -8,17 +8,20 @@ const BACKGROUND_GREEN = new BABYLON.Color3(0.81, 0.97, 0.68);
 const canvas = <HTMLCanvasElement>document.getElementById('application');
 const engine = new BABYLON.Engine(canvas, true, {preserveDrawingBuffer: true, stencil: true});
 
+window.addEventListener('resize', function () {
+    engine.resize();
+});
 
 let createScene = async function () {
     let scene = new BABYLON.Scene(engine);
     scene.clearColor = BACKGROUND_GREEN.toColor4();
-
     // const camera = new BABYLON.ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2.5, 3, new BABYLON.Vector3(0, 0, 0));
     // camera.attachControl(canvas, true);
 
     let ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 80, height: 40}, scene);
     let groundMaterial = new BABYLON.StandardMaterial("ground", scene);
     groundMaterial.diffuseColor = new BABYLON.Color3(0.5, 0.50, 0.5).scale(2);
+    groundMaterial.specularColor = BABYLON.Color3.Black();
     ground.material = groundMaterial;
 
     //
@@ -42,7 +45,7 @@ let createScene = async function () {
     const galleryMeshes = await loadGalleryBuilding(scene);
     directionalLight.excludedMeshes.push(...galleryMeshes.interiorMeshes);
 
-    const player = new FirstPersonWalker(canvas, scene, new BABYLON.Vector3(0, 2, 4));
+    const player = new FirstPersonWalker(canvas, scene, new BABYLON.Vector3(18, 2, 0));
 
     scene.gravity = new BABYLON.Vector3(0, -1.15, 0);
     scene.collisionsEnabled = true;
