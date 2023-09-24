@@ -1,5 +1,6 @@
 import * as BABYLON from '@babylonjs/core';
 import {InteractableBehavior} from "./behaviors/interactableBehavior";
+import {isTouchScreenDevice} from "./lib/platform";
 
 export class FirstPersonWalker {
     camera: BABYLON.FreeCamera;
@@ -10,7 +11,22 @@ export class FirstPersonWalker {
     private _tickObserver;
 
     constructor(canvas: HTMLCanvasElement, scene: BABYLON.Scene, location: BABYLON.Vector3) {
-        this.camera = new BABYLON.UniversalCamera("camera1", location, scene);
+        if(isTouchScreenDevice()) {
+            this.camera = new BABYLON.VirtualJoysticksCamera("playerCamera", location, scene);
+        } else {
+            this.camera = new BABYLON.UniversalCamera("playerCamera", location, scene);
+        }
+        // Add WASD controls to the camera
+        this.camera.keysUp = this.camera.keysUp.concat([87]); // W
+        this.camera.keysDown = this.camera.keysDown.concat([83]); // S
+        this.camera.keysLeft = this.camera.keysLeft.concat([65]); // A
+        this.camera.keysRight = this.camera.keysRight.concat([68]); //
+
+        // Enable touch controls
+        // this.camera.touchAngularSensibility = 5000;
+        // this.camera.touchMoveSensibility = 10000000;
+
+        //}
         // set fov
         this.camera.fov = 1.2;
         this.camera.attachControl(canvas, true);
@@ -25,11 +41,7 @@ export class FirstPersonWalker {
 
         this.camera.minZ = 0.01;
 
-        // Add WASD controls to the camera
-        this.camera.keysUp = this.camera.keysUp.concat([87]); // W
-        this.camera.keysDown = this.camera.keysDown.concat([83]); // S
-        this.camera.keysLeft = this.camera.keysLeft.concat([65]); // A
-        this.camera.keysRight = this.camera.keysRight.concat([68]); // D
+
 
         this.camera.speed = 0.1;
 

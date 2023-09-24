@@ -12,6 +12,8 @@ window.addEventListener('resize', function () {
     engine.resize();
 });
 
+console.log("Welcome to smulk.band");
+
 let createScene = async function () {
     let scene = new BABYLON.Scene(engine);
     scene.clearColor = BACKGROUND_GREEN.toColor4();
@@ -54,9 +56,10 @@ let createScene = async function () {
     return scene;
 }
 
-
+const divFps = document.getElementById("fps");
 createScene().then(scene => {
     engine.runRenderLoop(() => {
         scene.render();
+        divFps.innerHTML = engine.getFps().toFixed() + " fps";
     });
 });
