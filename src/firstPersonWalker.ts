@@ -42,7 +42,6 @@ export class FirstPersonWalker {
         this.camera.minZ = 0.01;
 
 
-
         this.camera.speed = 0.1;
 
         this._tickObserver = scene.onBeforeRenderObservable.add(() => {that._update()});

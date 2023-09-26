@@ -41,13 +41,14 @@ let createScene = async function () {
 
     const logo = await loadLogo(scene);
     logo.position.x = 28;
-    logo.position.z = 10;
+    logo.position.z = 0;
     logo.position.y = 3;
 
     const galleryMeshes = await loadGalleryBuilding(scene);
     directionalLight.excludedMeshes.push(...galleryMeshes.interiorMeshes);
 
-    const player = new FirstPersonWalker(canvas, scene, new BABYLON.Vector3(18, 2, 0));
+    const player = new FirstPersonWalker(canvas, scene, new BABYLON.Vector3(28, 2, -6));
+    player.camera.setTarget(logo.position);
 
     scene.gravity = new BABYLON.Vector3(0, -1.15, 0);
     scene.collisionsEnabled = true;
