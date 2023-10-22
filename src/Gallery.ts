@@ -37,12 +37,26 @@ export async function loadGalleryBuilding(scene: BABYLON.Scene):
         new BABYLON.Texture("assets/photos/jacc/jacc_wide1.jpg", scene, false, false),
     ];
 
+    let galleryPalletMaterial = new BABYLON.StandardMaterial("material", scene);
+    galleryPalletMaterial.diffuseTexture = new BABYLON.Texture("assets/ColorPallet.png", scene, false, false);
+    galleryPalletMaterial.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
+
+    let redMaterial = new BABYLON.StandardMaterial("red", scene);
+    redMaterial.diffuseColor = BABYLON.Color3.Red();
 
     let blackWhiteTexture = new BABYLON.Texture("assets/black_white.png", scene)
 
     let tempWallMaterial = new BABYLON.StandardMaterial("material", scene);
     tempWallMaterial.diffuseColor = BABYLON.Color3.White();
     tempWallMaterial.specularColor = BABYLON.Color3.Black();
+
+    let whiteMarbleMaterial = new BABYLON.StandardMaterial("material", scene);
+    whiteMarbleMaterial.diffuseColor = BABYLON.Color3.White();
+
+    // Default material to pallet
+    for(let i = 0; i < result.meshes.length; ++i) {
+        result.meshes[i].material = galleryPalletMaterial;
+    }
 
     for(let i = 0; i < result.meshes.length; ++i) {
         let mesh = result.meshes[i];
@@ -78,7 +92,6 @@ export async function loadGalleryBuilding(scene: BABYLON.Scene):
                     } else if(mesh.name.startsWith("PictureFrame.007")) {
                         material = makePictureMaterial(photoTextures[5]);
                     }
-
                     mesh.material = material;
                 }
             }
@@ -101,13 +114,21 @@ export async function loadGalleryBuilding(scene: BABYLON.Scene):
             meshes.interiorMeshes.push(mesh);
         }
         else if(mesh.name == "GalleryBuilding") {
-            mesh.checkCollisions = true;
+            mesh.checkCollisions = false;
             meshes.galleryBuilding = mesh;
+            mesh.material = whiteMarbleMaterial;
+        }
+        else if(mesh.name == "GalleryBuilding_Collision") {
+            mesh.checkCollisions = true;
+            mesh.isVisible = false;
+        }
+        else if(mesh.name.startsWith("OuterWall")) {
+            mesh.material = galleryPalletMaterial;
         }
         else {
             mesh.checkCollisions = true;
-            mesh.material = tempWallMaterial;
-            meshes.interiorMeshes.push(mesh);
+
+            // meshes.interiorMeshes.push(mesh);
         }
     }
 

@@ -27,7 +27,7 @@ let createScene = async function () {
     ground.material = groundMaterial;
 
     //
-    let directionalLight = new BABYLON.DirectionalLight("dirLight", new BABYLON.Vector3(0, -0.1, 0.5), scene);
+    let directionalLight = new BABYLON.DirectionalLight("dirLight", new BABYLON.Vector3(-0.5, -1, 0.5), scene);
     directionalLight.position.y = 100;
     directionalLight.intensity = 0.8;
 
