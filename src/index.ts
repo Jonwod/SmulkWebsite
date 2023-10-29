@@ -35,19 +35,21 @@ let createScene = async function () {
     let hemiLight = new BABYLON.HemisphericLight("hemiLight", new BABYLON.Vector3(0, 1, 0), scene);
     hemiLight.intensity = 0.1;
 
+    let hemiLight2 = new BABYLON.HemisphericLight("hemiLight2", new BABYLON.Vector3(0, -1, 0), scene);
+    hemiLight2.intensity = 0.4;
 
     // Add a basic cube
     // const box = BABYLON.MeshBuilder.CreateBox("box", {});
 
     const logo = await loadLogo(scene);
-    logo.position.x = 28;
+    logo.position.x = 35;
     logo.position.z = 0;
     logo.position.y = 3;
 
     const galleryMeshes = await loadGalleryBuilding(scene);
     directionalLight.excludedMeshes.push(...galleryMeshes.interiorMeshes);
 
-    const player = new FirstPersonWalker(canvas, scene, new BABYLON.Vector3(28, 2, -6));
+    const player = new FirstPersonWalker(canvas, scene, new BABYLON.Vector3(35, 2, -6));
     player.camera.setTarget(logo.position);
 
     scene.gravity = new BABYLON.Vector3(0, -1.15, 0);
