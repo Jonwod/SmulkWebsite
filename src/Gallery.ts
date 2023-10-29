@@ -125,6 +125,9 @@ export async function loadGalleryBuilding(scene: BABYLON.Scene):
         else if(mesh.name.startsWith("OuterWall")) {
             mesh.material = galleryPalletMaterial;
         }
+        else if(mesh.name.startsWith("TempWalls")) {
+            mesh.material = tempWallMaterial;
+        }
         else {
             mesh.checkCollisions = true;
 
