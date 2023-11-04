@@ -47,7 +47,7 @@ let createScene = async function () {
     logo.position.y = 3;
 
     const galleryMeshes = await loadGalleryBuilding(scene);
-    directionalLight.excludedMeshes.push(...galleryMeshes.interiorMeshes);
+    directionalLight.excludedMeshes.push(...(galleryMeshes.getInteriorMeshes()));
 
     const player = new FirstPersonWalker(canvas, scene, new BABYLON.Vector3(35, 2, -6));
     player.camera.setTarget(logo.position);
@@ -55,6 +55,12 @@ let createScene = async function () {
     scene.gravity = new BABYLON.Vector3(0, -1.15, 0);
     scene.collisionsEnabled = true;
     ground.checkCollisions = true;
+
+
+    // ~~~~~~~~~~ Shadows ~~~~~~~~~~~
+    // const shadowGenerator = new BABYLON.ShadowGenerator(1024, directionalLight);
+    // shadowGenerator.getShadowMap().renderList.push();
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     return scene;
 }
