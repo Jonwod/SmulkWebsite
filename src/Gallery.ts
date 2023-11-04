@@ -16,7 +16,7 @@ class Gallery{
     private rootMesh: BABYLON.AbstractMesh;
     private galleryBuilding: BABYLON.AbstractMesh = null;
     private interiorMeshes: BABYLON.AbstractMesh[] = [];
-    private pillarMeshes: BABYLON.AbstractMesh[] = null;
+    private pillarMeshes: BABYLON.AbstractMesh[] = [];
 
     public getInteriorMeshes(): BABYLON.AbstractMesh[] {
         return this.interiorMeshes;
@@ -129,6 +129,10 @@ class Gallery{
             }
             else if(mesh.name.startsWith("TempWalls")) {
                 mesh.material = tempWallMaterial;
+            }
+            else if(mesh.name.startsWith("Pillar")) {
+                mesh.material = galleryPalletMaterial;
+                this.pillarMeshes.push(mesh);
             }
             else {
                 mesh.checkCollisions = true;

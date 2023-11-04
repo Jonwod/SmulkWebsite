@@ -27,16 +27,16 @@ let createScene = async function () {
     ground.material = groundMaterial;
 
     //
-    let directionalLight = new BABYLON.DirectionalLight("dirLight", new BABYLON.Vector3(-0.5, -1, 0.5), scene);
+    let directionalLight = new BABYLON.DirectionalLight("dirLight", new BABYLON.Vector3(-0.5, -0.7, 0.0), scene);
     directionalLight.position.y = 100;
     directionalLight.intensity = 0.8;
 
     // Add a hemispheric light
-    let hemiLight = new BABYLON.HemisphericLight("hemiLight", new BABYLON.Vector3(0, 1, 0), scene);
-    hemiLight.intensity = 0.1;
+    // let hemiLight = new BABYLON.HemisphericLight("hemiLight", new BABYLON.Vector3(0, 1, 0), scene);
+    // hemiLight.intensity = 0.0;
 
     let hemiLight2 = new BABYLON.HemisphericLight("hemiLight2", new BABYLON.Vector3(0, -1, 0), scene);
-    hemiLight2.intensity = 0.4;
+    hemiLight2.intensity = 0.2;
 
     // Add a basic cube
     // const box = BABYLON.MeshBuilder.CreateBox("box", {});
@@ -46,8 +46,8 @@ let createScene = async function () {
     logo.position.z = 0;
     logo.position.y = 3;
 
-    const galleryMeshes = await loadGalleryBuilding(scene);
-    directionalLight.excludedMeshes.push(...(galleryMeshes.getInteriorMeshes()));
+    const gallery = await loadGalleryBuilding(scene);
+    directionalLight.excludedMeshes.push(...(gallery.getInteriorMeshes()));
 
     const player = new FirstPersonWalker(canvas, scene, new BABYLON.Vector3(35, 2, -6));
     player.camera.setTarget(logo.position);
@@ -56,10 +56,13 @@ let createScene = async function () {
     scene.collisionsEnabled = true;
     ground.checkCollisions = true;
 
-
     // ~~~~~~~~~~ Shadows ~~~~~~~~~~~
-    // const shadowGenerator = new BABYLON.ShadowGenerator(1024, directionalLight);
-    // shadowGenerator.getShadowMap().renderList.push();
+    const shadowGenerator = new BABYLON.ShadowGenerator(1024, directionalLight);
+    const pillars = gallery.getPillarMeshes();
+    for(let pillar of pillars) {
+        shadowGenerator.getShadowMap().renderList.push(pillar);
+    }
+    ground.receiveShadows = true;
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     return scene;
