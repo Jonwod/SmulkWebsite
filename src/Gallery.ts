@@ -13,7 +13,6 @@ function makePictureMaterial(texture: BABYLON.Texture) {
 
 
 class Gallery{
-    private rootMesh: BABYLON.AbstractMesh;
     private galleryBuilding: BABYLON.AbstractMesh = null;
     private interiorMeshes: BABYLON.AbstractMesh[] = [];
     private pillarMeshes: BABYLON.AbstractMesh[] = [];

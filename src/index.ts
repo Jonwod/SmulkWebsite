@@ -58,6 +58,7 @@ let createScene = async function () {
 
     // ~~~~~~~~~~ Shadows ~~~~~~~~~~~
     const shadowGenerator = new BABYLON.ShadowGenerator(1024, directionalLight);
+    shadowGenerator.useBlurCloseExponentialShadowMap = true;
     const pillars = gallery.getPillarMeshes();
     for(let pillar of pillars) {
         shadowGenerator.getShadowMap().renderList.push(pillar);
