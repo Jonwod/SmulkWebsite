@@ -49,7 +49,7 @@ let createScene = async function () {
     const gallery = await loadGalleryBuilding(scene);
     directionalLight.excludedMeshes.push(...(gallery.getInteriorMeshes()));
 
-    const player = new FirstPersonWalker(canvas, scene, new BABYLON.Vector3(35, 2, -6));
+    const player = new FirstPersonWalker(canvas, scene, new BABYLON.Vector3(35, 4, -6));
     player.camera.setTarget(logo.position);
 
     scene.gravity = new BABYLON.Vector3(0, -1.15, 0);

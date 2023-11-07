@@ -119,10 +119,10 @@ class Gallery{
                 this.galleryBuilding = mesh;
                 mesh.material = whiteMarbleMaterial;
             }
-            else if(mesh.name == "GalleryBuilding_Collision") {
-                mesh.checkCollisions = true;
-                mesh.isVisible = false;
-            }
+            // else if(mesh.name == "GalleryBuilding_Collision") {
+            //     mesh.checkCollisions = true;
+            //     mesh.isVisible = false;
+            // }
             else if(mesh.name.startsWith("OuterWall")) {
                 mesh.material = galleryPalletMaterial;
             }
@@ -133,8 +133,20 @@ class Gallery{
                 mesh.material = galleryPalletMaterial;
                 this.pillarMeshes.push(mesh);
             }
-            else {
+            else if(mesh.name.startsWith("OuterStairs")) {
+                mesh.material = galleryPalletMaterial;
+                mesh.checkCollisions = false;
+            }
+            else if(mesh.name.startsWith("collider")) {
                 mesh.checkCollisions = true;
+                mesh.isVisible = false;
+            }
+            else if(mesh.name.startsWith("TestRamp")) {
+                mesh.checkCollisions = true;
+                mesh.material = galleryPalletMaterial;
+            }
+            else {
+                mesh.checkCollisions = false;
 
                 // meshes.interiorMeshes.push(mesh);
             }

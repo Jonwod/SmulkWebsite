@@ -6,6 +6,7 @@ export class FirstPersonWalker {
     camera: BABYLON.FreeCamera;
     // mesh: BABYLON.Mesh;
     mouseRotateRate: number = 0.003;
+    height: number = 1.8;
     private _forwardInput: number;
     private _rightInput: number;
     private _tickObserver;
@@ -22,25 +23,18 @@ export class FirstPersonWalker {
         this.camera.keysLeft = this.camera.keysLeft.concat([65]); // A
         this.camera.keysRight = this.camera.keysRight.concat([68]); //
 
-        // Enable touch controls
-        // this.camera.touchAngularSensibility = 5000;
-        // this.camera.touchMoveSensibility = 10000000;
-
-        //}
         // set fov
         this.camera.fov = 1.2;
         this.camera.attachControl(canvas, true);
-        this.camera.applyGravity = true;
         let that = this;
 
         this.camera.setTarget(new BABYLON.Vector3(0, 1, 1));
         // document.addEventListener('mousemove', (e) => {that._mouseMoveHandler(e)}, false);
-        this.camera.applyGravity = true;
-        this.camera.ellipsoid = new BABYLON.Vector3(0.5, 1, 0.5);
+        this.camera.applyGravity = false;
+        this.camera.ellipsoid = new BABYLON.Vector3(0.5, 0.7, 0.5);
         this.camera.checkCollisions = true;
 
         this.camera.minZ = 0.01;
-
 
         this.camera.speed = 0.1;
 
@@ -119,6 +113,9 @@ export class FirstPersonWalker {
                 this._hoveredInteractable = null;
             }
         }
+
+        let floor = this._raycastFloor();
+        this.camera.position.y = floor.y + this.height;
     }
 
 
@@ -137,5 +134,17 @@ export class FirstPersonWalker {
         }
     }
 
-
+    private _raycastFloor(): BABYLON.Vector3 {
+        const start = this.camera.position.clone();
+        const ray = new BABYLON.Ray(start, new BABYLON.Vector3(0, -1, 0), 100);
+        let predicate = function(mesh) {
+            return mesh.checkCollisions && mesh.isEnabled;
+        }
+        const result = this.camera.getScene().pickWithRay(ray, predicate);
+        if(result.hit) {
+            return result.pickedPoint;
+        } else {
+            return null;
+        }
+    }
 }
