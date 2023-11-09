@@ -135,13 +135,17 @@ class Gallery{
             }
             else if(mesh.name.startsWith("OuterStairs")) {
                 mesh.material = galleryPalletMaterial;
-                mesh.checkCollisions = false;
+                mesh.checkCollisions = true;
             }
             else if(mesh.name.startsWith("collider")) {
                 mesh.checkCollisions = true;
                 mesh.isVisible = false;
             }
             else if(mesh.name.startsWith("TestRamp")) {
+                mesh.checkCollisions = true;
+                mesh.material = galleryPalletMaterial;
+            }
+            else if(mesh.name.startsWith("InteriorFloor")) {
                 mesh.checkCollisions = true;
                 mesh.material = galleryPalletMaterial;
             }
