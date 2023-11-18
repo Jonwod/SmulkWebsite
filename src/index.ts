@@ -27,7 +27,7 @@ let createScene = async function () {
     ground.material = groundMaterial;
 
     //
-    let directionalLight = new BABYLON.DirectionalLight("dirLight", new BABYLON.Vector3(-0.5, -0.7, 0.0), scene);
+    let directionalLight = new BABYLON.DirectionalLight("dirLight", new BABYLON.Vector3(-0.8, -0.5, 0.0), scene);
     directionalLight.position.y = 100;
     directionalLight.intensity = 0.8;
 
@@ -49,7 +49,7 @@ let createScene = async function () {
     const gallery = await loadGalleryBuilding(scene);
     directionalLight.excludedMeshes.push(...(gallery.getInteriorMeshes()));
 
-    const player = new FirstPersonWalker(canvas, scene, new BABYLON.Vector3(35, 4, -6));
+    const player = new FirstPersonWalker(canvas, scene, new BABYLON.Vector3(35, 8, -6));
     player.camera.setTarget(logo.position);
 
     scene.gravity = new BABYLON.Vector3(0, -1.15, 0);

@@ -10,6 +10,7 @@ export class FirstPersonWalker {
     private _forwardInput: number;
     private _rightInput: number;
     private _tickObserver;
+    private _capsuleHeight: number = 1.4;
 
     constructor(canvas: HTMLCanvasElement, scene: BABYLON.Scene, location: BABYLON.Vector3) {
         if(isTouchScreenDevice()) {
@@ -31,7 +32,7 @@ export class FirstPersonWalker {
         this.camera.setTarget(new BABYLON.Vector3(0, 1, 1));
         // document.addEventListener('mousemove', (e) => {that._mouseMoveHandler(e)}, false);
         this.camera.applyGravity = false;
-        this.camera.ellipsoid = new BABYLON.Vector3(0.5, 0.7, 0.5);
+        this.camera.ellipsoid = new BABYLON.Vector3(0.5, this._capsuleHeight / 2.0, 0.5);
         this.camera.checkCollisions = true;
 
         this.camera.minZ = 0.01;
@@ -64,33 +65,19 @@ export class FirstPersonWalker {
     }
 
 
-    // private _lastMousePosition: {x: number, y: number} = {x: NaN, y: NaN};
-
-    // private _mouseMoveHandler(event: MouseEvent) {
-    //     // The problem is that this doesn't work in callback
-    //     if(event.buttons >= 0) {
-    //         if(!isNaN(this._lastMousePosition.x)) {
-    //             const dx = event.clientX - this._lastMousePosition.x;
-    //             this.camera.rotation.y += dx * this.mouseRotateRate;
-    //         }
-    //         if(!isNaN(this._lastMousePosition.y)) {
-    //             const dy = event.clientY - this._lastMousePosition.y;
-    //             // this.camera.rotation.
-    //             // this.pitch += dy * this.mouseRotateRate;
-    //         }
-    //
-    //         this._lastMousePosition = {x: event.clientX, y: event.clientY};
-    //
-    //     } else {
-    //         this._lastMousePosition = {x: NaN, y: NaN};
-    //     }
-    // }
-
     // ~~~~~~~~~~~ Interactions ~~~~~~~~~~~
     private _interactionRange: number = 3;
     private _hoveredInteractable: InteractableBehavior = null;
 
+    private _vy: number = 0;
+
     private _update() {
+        let dt = this.camera.getScene().deltaTime;
+        if(typeof dt == 'undefined') {  // It's undefined on the first frame...
+            return;
+        }
+        dt =  dt / 1000.0
+
         let result = this.camera.getScene().pickWithRay(this.camera.getForwardRay(this._interactionRange));
         if(result.hit && result.distance < this._interactionRange) {
             const interaction = <InteractableBehavior>result.pickedMesh.getBehaviorByName('interactableBehavior');
@@ -115,7 +102,26 @@ export class FirstPersonWalker {
         }
 
         let floor = this._raycastFloor();
-        this.camera.position.y = floor.y + this.height;
+        const maxAllowableDip = this.height - this._capsuleHeight;
+        if(floor != null) {
+            this._vy = 0;
+            const targetY = floor.y + this.height;
+            let yDiff = targetY - this.camera.position.y;
+            if(yDiff > 0) {
+                if(yDiff > maxAllowableDip) {
+                    this.camera.position.y = floor.y + this.height - maxAllowableDip;
+                    yDiff = maxAllowableDip;
+                }
+            } else {
+
+            }
+            const ySpeed = 2;
+            this.camera.position.y += Math.sign(yDiff) * Math.min(Math.abs(yDiff), ySpeed * dt);
+        }
+        else {
+            this._vy += dt * -9.8;
+            this.camera.position.y += this._vy * dt;
+        }
     }
 
 
