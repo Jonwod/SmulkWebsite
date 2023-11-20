@@ -2,6 +2,7 @@ import * as BABYLON from '@babylonjs/core';
 import {loadLogo} from "./Logo";
 import {loadGalleryBuilding} from "./Gallery";
 import {FirstPersonWalker} from "./firstPersonWalker";
+import {loadTownCenter} from "./TownCenter";
 
 const BACKGROUND_GREEN = new BABYLON.Color3(0.81, 0.97, 0.68);
 
@@ -42,15 +43,22 @@ let createScene = async function () {
     // const box = BABYLON.MeshBuilder.CreateBox("box", {});
 
     const logo = await loadLogo(scene);
-    logo.position.x = 35;
-    logo.position.z = 0;
-    logo.position.y = 3;
+    logo.position.x = -60;
+    logo.position.z = 2;
+    logo.position.y = 50;
+    // rotate the logo
+    logo.rotate(BABYLON.Axis.Y, -Math.PI / 2, BABYLON.Space.LOCAL);
+    logo.scaling = new BABYLON.Vector3(10, 10, 10);
 
     const gallery = await loadGalleryBuilding(scene);
     directionalLight.excludedMeshes.push(...(gallery.getInteriorMeshes()));
 
-    const player = new FirstPersonWalker(canvas, scene, new BABYLON.Vector3(35, 8, -6));
-    player.camera.setTarget(logo.position);
+    const player = new FirstPersonWalker(canvas, scene, new BABYLON.Vector3(0, 8, 0));
+    player.camera.setTarget(new BABYLON.Vector3(logo.position.x, 25,  logo.position.z));
+
+    // let monke = await loadTestMonke(scene);
+
+    let townCenter= await loadTownCenter(scene);
 
     scene.gravity = new BABYLON.Vector3(0, -1.15, 0);
     scene.collisionsEnabled = true;

@@ -1,6 +1,7 @@
 import * as BABYLON from '@babylonjs/core';
 import "@babylonjs/loaders/glTF";   // This is required to load glTF files (it has side effects)
 
+
 function makePictureMaterial(texture: BABYLON.Texture) {
     let material: BABYLON.StandardMaterial = new BABYLON.StandardMaterial("material", texture.getScene());
     // material.diffuseColor = BABYLON.Color3.Black();
@@ -128,6 +129,7 @@ class Gallery{
             }
             else if(mesh.name.startsWith("TempWalls")) {
                 mesh.material = tempWallMaterial;
+                // addOutline(mesh as BABYLON.Mesh);
             }
             else if(mesh.name.startsWith("Pillar")) {
                 mesh.material = galleryPalletMaterial;
@@ -136,6 +138,7 @@ class Gallery{
             else if(mesh.name.startsWith("OuterStairs")) {
                 mesh.material = galleryPalletMaterial;
                 mesh.checkCollisions = true;
+                // addOutline(mesh as BABYLON.Mesh);
             }
             else if(mesh.name.startsWith("collider")) {
                 mesh.checkCollisions = true;
@@ -154,11 +157,13 @@ class Gallery{
 
                 // meshes.interiorMeshes.push(mesh);
             }
+            // addOutline(mesh as BABYLON.Mesh);
         }
 
+
         // Create spotlight
-        let pointLight = new BABYLON.PointLight("galleryInteriorLight1", new BABYLON.Vector3(8, 3, 0), scene);
-        pointLight.intensity = 0.8;
+        // let pointLight = new BABYLON.PointLight("galleryInteriorLight1", new BABYLON.Vector3(8, 3, 0), scene);
+        // pointLight.intensity = 0.8;
     }
 }
 
